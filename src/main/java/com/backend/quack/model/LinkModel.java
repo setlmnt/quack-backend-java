@@ -1,5 +1,6 @@
 package com.backend.quack.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -29,15 +30,27 @@ public class LinkModel {
     @URL(message = "Link url must be a valid URL")
     private String url;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collection_id", nullable = false)
+    @JsonIgnore
     private CollectionModel collection;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @PastOrPresent
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @PastOrPresent
+    @Column(name = "updated_at", nullable = false)
     private Date updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Date();
+        updatedAt = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Date();
+    }
 }

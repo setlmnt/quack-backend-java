@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -37,6 +38,8 @@ public class CollectionModel {
     @Enumerated(EnumType.STRING)
     private CollectionVisibility visibility = CollectionVisibility.PUBLIC;
 
+    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LinkModel> links;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)

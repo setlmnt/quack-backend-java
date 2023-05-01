@@ -4,6 +4,7 @@ import com.backend.quack.model.CollectionModel;
 import com.backend.quack.model.LinkModel;
 import com.backend.quack.repository.LinkRepository;
 import com.backend.quack.request.LinkPostRequestBody;
+import com.backend.quack.request.LinkPutRequestBody;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class LinkService {
     }
 
     public LinkModel saveLink(LinkPostRequestBody linkPostRequestBody) {
-        CollectionModel collection = this.collectionService.findCollectionById(linkPostRequestBody.getCollection_id());
+        CollectionModel collection = collectionService.findCollectionById(linkPostRequestBody.getCollection_id());
         return this.linkRepository.save(
                 LinkModel.builder()
                         .name(linkPostRequestBody.getName())
@@ -38,14 +39,14 @@ public class LinkService {
         this.linkRepository.deleteById(id);
     }
 
-    public LinkModel updateLinkById(long id, LinkPostRequestBody linkPostRequestBody) {
+    public LinkModel updateLinkById(long id, LinkPutRequestBody linkPutRequestBody) {
         LinkModel link = this.findLinkById(id);
-        if (linkPostRequestBody.getName() != null) {
-            link.setName(linkPostRequestBody.getName());
+        if (linkPutRequestBody.getName() != null) {
+            link.setName(linkPutRequestBody.getName());
         }
 
-        if (linkPostRequestBody.getUrl() != null) {
-            link.setUrl(linkPostRequestBody.getUrl());
+        if (linkPutRequestBody.getUrl() != null) {
+            link.setUrl(linkPutRequestBody.getUrl());
         }
 
         return this.linkRepository.save(link);
