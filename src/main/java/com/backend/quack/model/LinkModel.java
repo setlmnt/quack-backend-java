@@ -29,6 +29,10 @@ public class LinkModel {
     @URL(message = "Link url must be a valid URL")
     private String url;
 
+    @ManyToOne
+    @JoinColumn(name = "collection_id", nullable = false)
+    private CollectionModel collection;
+
     @Temporal(TemporalType.TIMESTAMP)
     @PastOrPresent
     private Date createdAt;
