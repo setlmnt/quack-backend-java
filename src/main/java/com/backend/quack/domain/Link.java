@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="link")
+@Table(name="links")
 public class Link {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

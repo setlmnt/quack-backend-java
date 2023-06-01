@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="collection")
+@Table(name="collections")
 public class Collection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
