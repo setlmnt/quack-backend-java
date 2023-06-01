@@ -1,8 +1,8 @@
 package com.backend.quack.repository;
 
-import com.backend.quack.model.CollectionModel;
+import com.backend.quack.domain.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CollectionRepository extends JpaRepository<CollectionModel, Long> {
-    CollectionModel findBySlug(String slug);
+public interface CollectionRepository extends JpaRepository<Collection, Long> {
+    Collection findBySlug(String slug);
 }

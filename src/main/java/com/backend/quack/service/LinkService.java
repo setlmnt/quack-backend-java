@@ -1,7 +1,7 @@
 package com.backend.quack.service;
 
-import com.backend.quack.model.CollectionModel;
-import com.backend.quack.model.LinkModel;
+import com.backend.quack.domain.Collection;
+import com.backend.quack.domain.Link;
 import com.backend.quack.repository.LinkRepository;
 import com.backend.quack.request.LinkPostRequestBody;
 import com.backend.quack.request.LinkPutRequestBody;
@@ -16,18 +16,18 @@ public class LinkService {
     private final LinkRepository linkRepository;
     private final CollectionService collectionService;
 
-    public List<LinkModel> listAllLinksInCollection(long collectionId) {
+    public List<Link> listAllLinksInCollection(long collectionId) {
         return this.linkRepository.findAllByCollectionId(collectionId);
     }
 
-    public LinkModel findLinkById(long id) {
+    public Link findLinkById(long id) {
         return this.linkRepository.findById(id).orElseThrow();
     }
 
-    public LinkModel saveLink(LinkPostRequestBody linkPostRequestBody) {
-        CollectionModel collection = collectionService.findCollectionById(linkPostRequestBody.getCollection_id());
+    public Link saveLink(LinkPostRequestBody linkPostRequestBody) {
+        Collection collection = collectionService.findCollectionById(linkPostRequestBody.getCollection_id());
         return this.linkRepository.save(
-                LinkModel.builder()
+                Link.builder()
                         .name(linkPostRequestBody.getName())
                         .url(linkPostRequestBody.getUrl())
                         .collection(collection)
@@ -39,8 +39,8 @@ public class LinkService {
         this.linkRepository.deleteById(id);
     }
 
-    public LinkModel updateLinkById(long id, LinkPutRequestBody linkPutRequestBody) {
-        LinkModel link = this.findLinkById(id);
+    public Link updateLinkById(long id, LinkPutRequestBody linkPutRequestBody) {
+        Link link = this.findLinkById(id);
         if (linkPutRequestBody.getName() != null) {
             link.setName(linkPutRequestBody.getName());
         }

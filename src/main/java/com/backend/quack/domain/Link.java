@@ -1,4 +1,4 @@
-package com.backend.quack.model;
+package com.backend.quack.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Table(name="link")
-public class LinkModel {
+public class Link {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,7 +33,7 @@ public class LinkModel {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collection_id", nullable = false)
     @JsonIgnore
-    private CollectionModel collection;
+    private Collection collection;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)

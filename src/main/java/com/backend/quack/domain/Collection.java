@@ -1,4 +1,4 @@
-package com.backend.quack.model;
+package com.backend.quack.domain;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Table(name="collection")
-public class CollectionModel {
+public class Collection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,7 +39,7 @@ public class CollectionModel {
     private CollectionVisibility visibility = CollectionVisibility.PUBLIC;
 
     @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<LinkModel> links;
+    private List<Link> links;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -1,6 +1,5 @@
 package com.backend.quack.request;
 
-import com.backend.quack.model.CollectionVisibility;
 import lombok.Data;
 
 @Data

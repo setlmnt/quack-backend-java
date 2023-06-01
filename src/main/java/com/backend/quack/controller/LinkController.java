@@ -1,6 +1,6 @@
 package com.backend.quack.controller;
 
-import com.backend.quack.model.LinkModel;
+import com.backend.quack.domain.Link;
 import com.backend.quack.request.LinkPostRequestBody;
 import com.backend.quack.request.LinkPutRequestBody;
 import com.backend.quack.service.LinkService;
@@ -18,24 +18,24 @@ public class LinkController {
     private final LinkService linkService;
 
     @GetMapping()
-    public ResponseEntity<List<LinkModel>> listAllLinkInCollection(@PathVariable Long id) {
+    public ResponseEntity<List<Link>> listAllLinkInCollection(@PathVariable Long id) {
         return ResponseEntity.ok(linkService.listAllLinksInCollection(id));
     }
 
     @GetMapping("/{linkId}")
-    public ResponseEntity<LinkModel> findLinkById(@PathVariable Long linkId, @PathVariable String id) {
+    public ResponseEntity<Link> findLinkById(@PathVariable Long linkId, @PathVariable String id) {
         return ResponseEntity.ok(linkService.findLinkById(linkId));
     }
 
     @PostMapping()
-    public ResponseEntity<LinkModel> saveLink(@RequestBody LinkPostRequestBody linkPostRequestBody, @PathVariable String id) {
+    public ResponseEntity<Link> saveLink(@RequestBody LinkPostRequestBody linkPostRequestBody, @PathVariable String id) {
         linkPostRequestBody.setCollection_id(Long.parseLong(id));
         System.out.println(linkPostRequestBody);
         return new ResponseEntity<>(linkService.saveLink(linkPostRequestBody), HttpStatus.CREATED);
     }
 
     @PutMapping("/{linkId}")
-    public ResponseEntity<LinkModel> updateLink(
+    public ResponseEntity<Link> updateLink(
             @PathVariable Long linkId, @RequestBody LinkPutRequestBody linkPutRequestBody,
             @PathVariable String id) {
         return ResponseEntity.ok(linkService.updateLinkById(linkId, linkPutRequestBody));

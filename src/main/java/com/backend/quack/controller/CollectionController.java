@@ -1,6 +1,6 @@
 package com.backend.quack.controller;
 
-import com.backend.quack.model.CollectionModel;
+import com.backend.quack.domain.Collection;
 import com.backend.quack.request.CollectionPostRequestBody;
 import com.backend.quack.request.CollectionPutRequestBody;
 import com.backend.quack.service.CollectionService;
@@ -18,22 +18,22 @@ public class CollectionController {
     private final CollectionService collectionService;
 
     @GetMapping()
-    public ResponseEntity<List<CollectionModel>> listAllCollections() {
+    public ResponseEntity<List<Collection>> listAllCollections() {
         return ResponseEntity.ok(collectionService.findAllCollections());
     }
 
     @GetMapping("/{slug}")
-    public ResponseEntity<CollectionModel> findCollectionBySlug(@PathVariable String slug) {
+    public ResponseEntity<Collection> findCollectionBySlug(@PathVariable String slug) {
         return ResponseEntity.ok(collectionService.findCollectionBySlug(slug));
     }
 
     @PostMapping()
-    public ResponseEntity<CollectionModel> saveCollection(@RequestBody CollectionPostRequestBody collectionPostRequestBody) {
+    public ResponseEntity<Collection> saveCollection(@RequestBody CollectionPostRequestBody collectionPostRequestBody) {
         return new ResponseEntity<>(collectionService.saveCollection(collectionPostRequestBody), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CollectionModel> updateCollection(
+    public ResponseEntity<Collection> updateCollection(
             @PathVariable Long id, @RequestBody CollectionPutRequestBody collectionPutRequestBody
     ) {
         return ResponseEntity.ok(collectionService.updateCollection(id, collectionPutRequestBody));

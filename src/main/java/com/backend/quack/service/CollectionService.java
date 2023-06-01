@@ -1,6 +1,6 @@
 package com.backend.quack.service;
 
-import com.backend.quack.model.CollectionModel;
+import com.backend.quack.domain.Collection;
 import com.backend.quack.repository.CollectionRepository;
 import com.backend.quack.request.CollectionPostRequestBody;
 import com.backend.quack.request.CollectionPutRequestBody;
@@ -25,22 +25,22 @@ public class CollectionService {
         return slug;
     }
 
-    public List<CollectionModel> findAllCollections() {
+    public List<Collection> findAllCollections() {
         return collectionRepository.findAll();
     }
 
-    public CollectionModel findCollectionBySlug(String slug) {
+    public Collection findCollectionBySlug(String slug) {
         return collectionRepository.findBySlug(slug);
     }
 
-    public CollectionModel findCollectionById(Long id) {
+    public Collection findCollectionById(Long id) {
         return collectionRepository.findById(id).orElseThrow();
     }
 
-    public CollectionModel saveCollection(CollectionPostRequestBody collectionPostRequestBody) {
-        CollectionModel collectionBySlug = collectionRepository.findBySlug(slugify(collectionPostRequestBody.getName()));
+    public Collection saveCollection(CollectionPostRequestBody collectionPostRequestBody) {
+        Collection collectionBySlug = collectionRepository.findBySlug(slugify(collectionPostRequestBody.getName()));
 
-        CollectionModel collection = CollectionModel.builder()
+        Collection collection = Collection.builder()
                 .name(collectionPostRequestBody.getName())
                 .slug(slugify(collectionPostRequestBody.getName()))
                 .bio(collectionPostRequestBody.getBio())
@@ -55,11 +55,11 @@ public class CollectionService {
         return collectionRepository.save(collection);
     }
 
-    public CollectionModel updateCollection(Long id, CollectionPutRequestBody collectionPutRequestBody) {
-        Optional<CollectionModel> savedCollection = Optional.ofNullable(collectionRepository.findById(id)
+    public Collection updateCollection(Long id, CollectionPutRequestBody collectionPutRequestBody) {
+        Optional<Collection> savedCollection = Optional.ofNullable(collectionRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Collection not Found")));
 
-        CollectionModel collection = CollectionModel.builder()
+        Collection collection = Collection.builder()
                 .id(savedCollection.get().getId())
                 .name(savedCollection.get().getName())
                 .slug(savedCollection.get().getSlug())
@@ -71,7 +71,7 @@ public class CollectionService {
             collection.setName(collectionPutRequestBody.getName());
             collection.setSlug(slugify(collectionPutRequestBody.getName()));
 
-            CollectionModel collectionBySlug = collectionRepository.findBySlug(slugify(collectionPutRequestBody.getName()));
+            Collection collectionBySlug = collectionRepository.findBySlug(slugify(collectionPutRequestBody.getName()));
 
             if(collectionBySlug != null && !collectionBySlug.getId().equals(id)) {
                 Random random = new Random();

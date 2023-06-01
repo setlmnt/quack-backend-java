@@ -1,6 +1,6 @@
 package com.backend.quack.request;
 
-import com.backend.quack.model.CollectionVisibility;
+import com.backend.quack.domain.CollectionVisibility;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
