@@ -38,7 +38,7 @@ public class Collection {
     @Enumerated(EnumType.STRING)
     private CollectionVisibility visibility = CollectionVisibility.PUBLIC;
 
-    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "collection", cascade = CascadeType.ALL)
     private List<Link> links;
 
     @Temporal(TemporalType.TIMESTAMP)

@@ -30,7 +30,6 @@ public class LinkController {
     @PostMapping()
     public ResponseEntity<Link> saveLink(@RequestBody LinkPostRequestBody linkPostRequestBody, @PathVariable String id) {
         linkPostRequestBody.setCollection_id(Long.parseLong(id));
-        System.out.println(linkPostRequestBody);
         return new ResponseEntity<>(linkService.saveLink(linkPostRequestBody), HttpStatus.CREATED);
     }
 
