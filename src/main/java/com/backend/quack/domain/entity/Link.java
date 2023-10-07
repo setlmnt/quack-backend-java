@@ -1,34 +1,26 @@
-package com.backend.quack.domain;
+package com.backend.quack.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.URL;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@Data
 @Entity
+@Table(name = "links")
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Table(name="links")
+@Data
 public class Link {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Link name is required")
-    @Size(min = 3, max = 20, message = "Link name must be between 3 and 20 characters")
     private String name;
-
-    @NotBlank(message = "Link url is required")
-    @URL(message = "Link url must be a valid URL")
     private String url;
+    private Boolean deleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collection_id", nullable = false)
@@ -37,20 +29,34 @@ public class Link {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at", nullable = false)
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = new Date();
-        updatedAt = new Date();
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = new Date();
+        updatedAt = LocalDateTime.now();
+    }
+
+    public void update(Link link) {
+        if (link.getName() != null) {
+            this.name = link.getName();
+        }
+
+        if (link.getUrl() != null) {
+            this.url = link.getUrl();
+        }
+    }
+
+    public void delete() {
+        this.deleted = true;
     }
 }

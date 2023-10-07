@@ -1,54 +1,58 @@
 package com.backend.quack.service;
 
-import com.backend.quack.domain.Collection;
-import com.backend.quack.domain.Link;
-import com.backend.quack.repository.LinkRepository;
-import com.backend.quack.request.LinkPostRequestBody;
-import com.backend.quack.request.LinkPutRequestBody;
+import com.backend.quack.domain.entity.Collection;
+import com.backend.quack.domain.entity.Link;
+import com.backend.quack.domain.repository.CollectionRepository;
+import com.backend.quack.domain.repository.LinkRepository;
+import com.backend.quack.dto.link.LinkPostDTO;
+import com.backend.quack.dto.link.LinkPutDTO;
+import com.backend.quack.dto.link.LinkResponseDTO;
+import com.backend.quack.exception.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class LinkService {
     private final LinkRepository linkRepository;
-    private final CollectionService collectionService;
+    private final CollectionRepository collectionRepository;
 
-    public List<Link> listAllLinksInCollection(long collectionId) {
-        return this.linkRepository.findAllByCollectionId(collectionId);
+    public List<LinkResponseDTO> listAllLinksInCollection(long collectionId) {
+        List<Link> links = this.linkRepository.findAllByCollectionIdAndDeletedIsFalse(collectionId);
+        return links
+                .stream()
+                .map(LinkResponseDTO::fromEntity)
+                .toList();
     }
 
-    public Link findLinkById(long id) {
-        return this.linkRepository.findById(id).orElseThrow();
+    public LinkResponseDTO findLinkById(long id) {
+        Link link = this.linkRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Link not found"));
+        return LinkResponseDTO.fromEntity(link);
     }
 
-    public Link saveLink(LinkPostRequestBody linkPostRequestBody) {
-        Collection collection = collectionService.findCollectionById(linkPostRequestBody.getCollection_id());
-        return this.linkRepository.save(
-                Link.builder()
-                        .name(linkPostRequestBody.getName())
-                        .url(linkPostRequestBody.getUrl())
-                        .collection(collection)
-                        .build()
-        );
+    public LinkResponseDTO saveLink(LinkPostDTO linkPostDTO) {
+        Collection collection = collectionRepository
+                .findByIdAndDeletedIsFalse(linkPostDTO.collection_id())
+                .orElseThrow(() -> new EntityNotFoundException("Collection not Found"));
+
+        Link link = linkPostDTO.toEntity();
+        link.setCollection(collection);
+
+        return LinkResponseDTO.fromEntity(this.linkRepository.save(link));
+    }
+
+    public LinkResponseDTO updateLinkById(long id, LinkPutDTO linkPutDTO) {
+        Link link = this.linkRepository.getReferenceById(id);
+        link.update(linkPutDTO.toEntity());
+        return LinkResponseDTO.fromEntity(link);
     }
 
     public void deleteLinkById(long id) {
-        this.linkRepository.deleteById(id);
-    }
-
-    public Link updateLinkById(long id, LinkPutRequestBody linkPutRequestBody) {
-        Link link = this.findLinkById(id);
-        if (linkPutRequestBody.getName() != null) {
-            link.setName(linkPutRequestBody.getName());
-        }
-
-        if (linkPutRequestBody.getUrl() != null) {
-            link.setUrl(linkPutRequestBody.getUrl());
-        }
-
-        return this.linkRepository.save(link);
+        Link link = this.linkRepository.getReferenceById(id);
+        link.delete();
     }
 }
