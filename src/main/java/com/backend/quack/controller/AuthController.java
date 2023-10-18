@@ -3,7 +3,6 @@ package com.backend.quack.controller;
 import com.backend.quack.domain.entity.User;
 import com.backend.quack.dto.TokenDTO;
 import com.backend.quack.dto.user.UserPostDTO;
-import com.backend.quack.dto.user.UserResponseDTO;
 import com.backend.quack.service.TokenService;
 import com.backend.quack.service.UserService;
 import jakarta.validation.Valid;
@@ -15,7 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationManager authenticationManager;

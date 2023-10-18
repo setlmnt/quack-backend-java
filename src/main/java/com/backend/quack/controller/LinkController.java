@@ -4,6 +4,7 @@ import com.backend.quack.dto.link.LinkPostDTO;
 import com.backend.quack.dto.link.LinkPutDTO;
 import com.backend.quack.dto.link.LinkResponseDTO;
 import com.backend.quack.service.LinkService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/collections/{id}/links")
+@RequestMapping("/api/v1/collections/{id}/links")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearer-key")
 public class LinkController {
     private final LinkService linkService;
 

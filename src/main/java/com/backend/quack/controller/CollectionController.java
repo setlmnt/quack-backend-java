@@ -5,6 +5,7 @@ import com.backend.quack.dto.collection.CollectionPostDTO;
 import com.backend.quack.dto.collection.CollectionPutDTO;
 import com.backend.quack.dto.collection.CollectionResponseDTO;
 import com.backend.quack.service.CollectionService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/collections")
+@RequestMapping("/api/v1/collections")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearer-key")
 public class CollectionController {
     private final CollectionService collectionService;
 

@@ -1,5 +1,6 @@
-package com.backend.quack.security;
+package com.backend.quack.config;
 
+import com.backend.quack.security.SecurityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfig {
     private static final String[] SWAGGER_AUTH_WHITELIST = {
             // -- Swagger UI v2
             "/v2/api-docs",
@@ -29,7 +30,7 @@ public class SecurityConfiguration {
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             "/swagger-ui/**"
-            // other public endpoints of your API may be appended to this array
+            ,"/docs/**"
     };
 
     @Bean
@@ -39,9 +40,9 @@ public class SecurityConfiguration {
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
-                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
-                        .requestMatchers(SWAGGER_AUTH_WHITELIST).permitAll()
-                        .anyRequest().authenticated()
+                                .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                                .requestMatchers(SWAGGER_AUTH_WHITELIST).permitAll()
+                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
