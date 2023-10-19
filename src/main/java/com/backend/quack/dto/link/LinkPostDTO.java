@@ -10,16 +10,13 @@ public record LinkPostDTO(
 
         @NotBlank
         @URL
-        String url,
+        String url
 
-        @NotBlank
-        Long collection_id
 ) {
     public static LinkPostDTO fromEntity(Link link) {
         return new LinkPostDTO(
                 link.getName(),
-                link.getUrl(),
-                link.getCollection().getId()
+                link.getUrl()
         );
     }
 

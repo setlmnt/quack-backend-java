@@ -44,7 +44,6 @@ public class CollectionController {
             @AuthenticationPrincipal UserDetails userDetails,
             @PathVariable String slug
     ) {
-        System.out.println("userDetails: " + userDetails);
         String username = userDetails == null ? null : userDetails.getUsername();
         return collectionService.findCollectionBySlug(slug, username);
     }

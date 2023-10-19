@@ -33,6 +33,14 @@ public class SecurityConfig {
             , "/docs/**"
     };
 
+    private static final String[] API_ROUTES_WHITELIST = {
+            "/api/v1/collections",
+            "/api/v1/collections/{slug}",
+            "/api/v1/collections/users/{username}",
+            "/api/v1/collections/{slug}/links",
+            "/api/v1/collections/{slug}/links/{id}",
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, SecurityFilter securityFilter) throws Exception {
         return http
@@ -41,9 +49,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/v1/collections").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/v1/collections/{slug}").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/v1/collections/users/{username}").permitAll()
+                                .requestMatchers(HttpMethod.GET, API_ROUTES_WHITELIST).permitAll()
                                 .requestMatchers(SWAGGER_AUTH_WHITELIST).permitAll()
                                 .anyRequest().authenticated()
                 )

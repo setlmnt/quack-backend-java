@@ -1,5 +1,6 @@
 package com.backend.quack.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class Collection {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     private Boolean deleted = false;
@@ -35,6 +37,7 @@ public class Collection {
     private CollectionVisibility visibility = CollectionVisibility.PUBLIC;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "collection", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Link> links;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -86,5 +89,20 @@ public class Collection {
         this.links.forEach(Link::delete);
         this.deleted = true;
         this.deletedAt = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "Collection{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", slug='" + slug + '\'' +
+                ", bio='" + bio + '\'' +
+                ", deleted=" + deleted +
+                ", visibility=" + visibility +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", deletedAt=" + deletedAt +
+                '}';
     }
 }
