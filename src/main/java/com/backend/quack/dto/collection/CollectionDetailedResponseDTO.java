@@ -34,11 +34,13 @@ public record CollectionDetailedResponseDTO(
                 name,
                 slug,
                 bio,
+                null,
                 deleted,
                 visibility,
                 null,
                 createdAt,
-                updatedAt
+                updatedAt,
+                null
         );
     }
 }

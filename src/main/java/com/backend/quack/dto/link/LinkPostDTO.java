@@ -31,6 +31,7 @@ public record LinkPostDTO(
                 false,
                 null,
                 null,
+                null,
                 null
         );
     }

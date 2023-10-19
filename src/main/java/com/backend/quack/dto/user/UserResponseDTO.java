@@ -1,7 +1,6 @@
 package com.backend.quack.dto.user;
 
 import com.backend.quack.domain.entity.User;
-import jakarta.validation.constraints.NotBlank;
 
 public record UserResponseDTO(
         Long id,

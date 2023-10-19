@@ -23,6 +23,7 @@ public record LinkResponseDTO(
                 null,
                 null,
                 null,
+                null,
                 null
         );
     }

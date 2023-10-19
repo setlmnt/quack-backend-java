@@ -33,8 +33,10 @@ public record CollectionPostDTO(
                 name,
                 null,
                 bio,
+                null,
                 false,
                 visibility,
+                null,
                 null,
                 null,
                 null

@@ -24,6 +24,11 @@ public class Collection {
     private String slug;
 
     private String bio;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     private Boolean deleted = false;
 
     @Enumerated(EnumType.STRING)
@@ -37,8 +42,12 @@ public class Collection {
     private LocalDateTime createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     public static String slugify(String name) {
         String slug = name.replaceAll("[^a-zA-Z0-9\\s]", "");
@@ -50,7 +59,6 @@ public class Collection {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
@@ -77,5 +85,6 @@ public class Collection {
     public void delete() {
         this.links.forEach(Link::delete);
         this.deleted = true;
+        this.deletedAt = LocalDateTime.now();
     }
 }

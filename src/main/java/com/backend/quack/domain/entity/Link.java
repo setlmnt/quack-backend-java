@@ -32,13 +32,16 @@ public class Link {
     private LocalDateTime createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
@@ -58,5 +61,6 @@ public class Link {
 
     public void delete() {
         this.deleted = true;
+        this.deletedAt = LocalDateTime.now();
     }
 }

@@ -29,7 +29,7 @@ public class TokenService {
                     .withClaim("id", user.getId())
                     .withExpiresAt(generateExpiresAt())
                     .sign(algorithm);
-        } catch (JWTCreationException exception){
+        } catch (JWTCreationException exception) {
             throw new RuntimeException("Error creating token", exception);
         }
     }
@@ -42,7 +42,7 @@ public class TokenService {
                     .build()
                     .verify(tokenJwt)
                     .getSubject();
-        } catch (JWTVerificationException exception){
+        } catch (JWTVerificationException exception) {
             throw new RuntimeException("Token invalid", exception);
         }
     }

@@ -17,7 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserResponseDTO create(UserPostDTO userPostDTO) {
+    public void create(UserPostDTO userPostDTO) {
         User user = userRepository.findUserByUsername(userPostDTO.username());
 
         if (user != null) {
@@ -27,6 +27,6 @@ public class UserService {
         user = userPostDTO.toEntity();
         user.setPassword(passwordEncoder.encode(userPostDTO.password()));
 
-        return UserResponseDTO.fromEntity(userRepository.save(user));
+        UserResponseDTO.fromEntity(userRepository.save(user));
     }
 }

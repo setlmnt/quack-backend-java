@@ -34,8 +34,10 @@ public record CollectionPutDTO(
                 name,
                 null,
                 bio,
+                null,
                 false,
                 visibility,
+                null,
                 null,
                 null,
                 null

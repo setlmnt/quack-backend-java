@@ -23,6 +23,7 @@ public record LinkPutDTO(
                 null,
                 null,
                 null,
+                null,
                 null
         );
     }

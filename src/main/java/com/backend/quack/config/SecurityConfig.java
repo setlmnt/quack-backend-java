@@ -30,7 +30,7 @@ public class SecurityConfig {
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             "/swagger-ui/**"
-            ,"/docs/**"
+            , "/docs/**"
     };
 
     @Bean
@@ -40,7 +40,10 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
-                                .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/collections").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/collections/{slug}").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/collections/users/{username}").permitAll()
                                 .requestMatchers(SWAGGER_AUTH_WHITELIST).permitAll()
                                 .anyRequest().authenticated()
                 )

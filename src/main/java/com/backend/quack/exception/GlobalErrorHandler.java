@@ -16,6 +16,13 @@ import java.util.List;
 
 @RestControllerAdvice
 public class GlobalErrorHandler {
+    private static List<ErrorType> getErrors(List<FieldError> fieldErrors) {
+        return fieldErrors
+                .stream()
+                .map(fieldError -> new ErrorType(fieldError.getField(), fieldError.getDefaultMessage()))
+                .toList();
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionResponse handleEntityNotFoundException() {
@@ -105,13 +112,6 @@ public class GlobalErrorHandler {
                 List.of(new ErrorType("body", ex.getLocalizedMessage())),
                 LocalDateTime.now()
         );
-    }
-
-    private static List<ErrorType> getErrors(List<FieldError> fieldErrors) {
-        return fieldErrors
-                .stream()
-                .map(fieldError -> new ErrorType(fieldError.getField(), fieldError.getDefaultMessage()))
-                .toList();
     }
 
     public record ErrorType(String field, String message) {
