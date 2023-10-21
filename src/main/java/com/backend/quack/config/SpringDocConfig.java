@@ -16,8 +16,8 @@ public class SpringDocConfig {
                         .addSecuritySchemes("bearer-key",
                                 new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                 .info(new Info()
-                        .title("Voll API")
-                        .description("Voll API")
+                        .title("Quack")
+                        .description("Quack")
                         .version("1.0.0"));
     }
 }
