@@ -1,9 +1,13 @@
-FROM openjdk:17-jdk-slim
+# syntax=docker/dockerfile:1
 
-ARG JAR_FILE=target/quack-1.0.0.jar
+FROM eclipse-temurin:17-jdk-jammy
 
-WORKDIR /opt/app
+WORKDIR /app
 
-COPY ${JAR_FILE} app.jar
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:resolve
 
-ENTRYPOINT ["java","-jar","app.jar"]
+COPY src ./src
+
+CMD ["./mvnw", "spring-boot:run"]
