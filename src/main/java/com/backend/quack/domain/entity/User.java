@@ -25,6 +25,10 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String username;
 
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
     private String password;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -76,6 +80,7 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
