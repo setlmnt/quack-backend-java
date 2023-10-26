@@ -2,7 +2,8 @@ package com.backend.quack.controller;
 
 import com.backend.quack.domain.entity.User;
 import com.backend.quack.dto.TokenDTO;
-import com.backend.quack.dto.user.UserPostDTO;
+import com.backend.quack.dto.user.UserLoginDTO;
+import com.backend.quack.dto.user.UserSignUpDTO;
 import com.backend.quack.service.TokenService;
 import com.backend.quack.service.UserService;
 import jakarta.validation.Valid;
@@ -23,11 +24,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public TokenDTO authenticate(
-            @RequestBody @Valid UserPostDTO userPostDTO
+            @RequestBody @Valid UserLoginDTO userLoginDTO
     ) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                userPostDTO.username(),
-                userPostDTO.password()
+                userLoginDTO.username(),
+                userLoginDTO.password()
         );
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
@@ -38,8 +39,8 @@ public class AuthController {
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public void signup(
-            @RequestBody @Valid UserPostDTO userPostDTO
+            @RequestBody @Valid UserSignUpDTO userSignUpDTO
     ) {
-        userService.create(userPostDTO);
+        userService.create(userSignUpDTO);
     }
 }

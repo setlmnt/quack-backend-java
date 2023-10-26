@@ -2,7 +2,6 @@ package com.backend.quack.domain.repository;
 
 import com.backend.quack.domain.entity.Collection;
 import com.backend.quack.domain.entity.CollectionVisibility;
-import com.backend.quack.service.CollectionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
