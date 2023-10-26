@@ -1,16 +1,9 @@
-FROM ubuntu:latest AS build
+FROM openjdk:17
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
-COPY . .
+ARG JAR_FILE=target/quack-1.0.0.jar
 
-RUN apt-get install maven -y
-RUN mvn clean install
+WORKDIR /opt/app
 
-FROM openjdk:17-jdk-slim
+COPY ${JAR_FILE} app.jar
 
-EXPOSE 8080
-
-COPY --from=build /target/quack-1.0.0.jar app.jar
-
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+ENTRYPOINT ["java","-jar","app.jar"]
